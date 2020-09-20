@@ -7,14 +7,19 @@ import java.util.Collections;
 public class RecipeBook {
     UI ui = new UI();
     String id;
-    int pageCount;
     String name;
     ArrayList<Food> listOfFoods;
 
-    public RecipeBook(){ }
+    public RecipeBook()
+    {
+        this.id = ui.idGenerator();
+        this.listOfFoods = new ArrayList<>();
+    }
     public RecipeBook(String name)
     {
+        this.id = ui.idGenerator();
         this.name=name;
+        this.listOfFoods = new ArrayList<>();
     }
 
     public Food createFood(String typeOfFood, String nameOfFood,boolean serveCold, ArrayList<String> listOfIngredients) throws Exception
@@ -22,16 +27,16 @@ public class RecipeBook {
         Food food;
             if(typeOfFood.toLowerCase().equals("1"))
             {
-                food = createAppetizer(typeOfFood, nameOfFood, serveCold, listOfIngredients);
+                food = createAppetizer(nameOfFood, serveCold, listOfIngredients);
             }
             else if(typeOfFood.toLowerCase().equals("2"))
             {
-                food = createSecondMeal(typeOfFood, nameOfFood, serveCold, listOfIngredients);
+                food = createSecondMeal(nameOfFood, serveCold, listOfIngredients);
             }
 
             else if(typeOfFood.toLowerCase().equals("3"))
             {
-                food = createDessert(typeOfFood, nameOfFood, serveCold, listOfIngredients);
+                food = createDessert(nameOfFood, serveCold, listOfIngredients);
             }
             else
             {
@@ -42,7 +47,7 @@ public class RecipeBook {
     }
 
 
-    public Food createAppetizer(String typeOfFood, String nameOfFood, boolean serveCold, ArrayList<String> listOfIngredients) throws Exception
+    private Food createAppetizer(String nameOfFood, boolean serveCold, ArrayList<String> listOfIngredients) throws Exception
         {
             String id = ui.idGenerator();
             Time timeToPrepare;
@@ -75,7 +80,7 @@ public class RecipeBook {
             return new Appetizer(id, nameOfFood, serveCold, listOfIngredients, timeToPrepare);
         }
 
-        public Food createSecondMeal(String typeOfFood, String nameOfFood, boolean serveCold, ArrayList<String> listOfIngredients) throws Exception
+        private Food createSecondMeal(String nameOfFood, boolean serveCold, ArrayList<String> listOfIngredients) throws Exception
         {
             String id = ui.idGenerator();
             String userInput = ui.getInputFromUser("\n[yes or no]\nNeed to cook: ");
@@ -139,7 +144,7 @@ public class RecipeBook {
             return new SecondMeal(id, nameOfFood, serveCold, listOfIngredients, needToCook, timeToPrepare, listOfSpices);
         }
 
-        public Food createDessert(String typeOfFood, String nameOfFood, boolean serveCold, ArrayList<String> listOfIngredients) throws Exception
+        private Food createDessert(String nameOfFood, boolean serveCold, ArrayList<String> listOfIngredients) throws Exception
         {
             String id = ui.idGenerator();
             String userInput = ui.getInputFromUser("Need to cook it: ");
@@ -190,7 +195,7 @@ public class RecipeBook {
 
     public void addFood(Food food)
     {
-        listOfFoods.add(food);
+        this.listOfFoods.add(food);
     }
 
     public String getId() {
@@ -199,14 +204,6 @@ public class RecipeBook {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public int getPageCount() {
-        return pageCount;
-    }
-
-    public void setPageCount(int pageCount) {
-        this.pageCount = pageCount;
     }
 
     public String getName() {
