@@ -10,16 +10,24 @@ public class RecipeBook {
     String name;
     ArrayList<Food> listOfFoods;
 
-    public RecipeBook()
+    public RecipeBook() throws Exception
     {
         this.id = ui.idGenerator();
         this.listOfFoods = new ArrayList<>();
     }
-    public RecipeBook(String name)
+
+    public RecipeBook(String name) throws Exception
     {
         this.id = ui.idGenerator();
         this.name=name;
         this.listOfFoods = new ArrayList<>();
+    }
+
+    public RecipeBook(String name, String id, ArrayList<Food> listOfFoods)
+    {
+        this.id = id;
+        this.name=name;
+        this.listOfFoods = listOfFoods;
     }
 
     public Food createFood(String typeOfFood, String nameOfFood,boolean serveCold, ArrayList<String> listOfIngredients) throws Exception

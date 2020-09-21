@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
 public class XMLSaver implements ISaver {
 
     @Override
-    public void saveToXml(Store store) {
+    public void saveToXml(String path, Store store) {
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -75,21 +75,28 @@ public class XMLSaver implements ISaver {
                     {
                         Appetizer appetizer = (Appetizer) booksFood;
 
+                        Attr foodType = doc.createAttribute("foodType");
                         Attr foodTimeToPrepare = doc.createAttribute("timeToPrepare");
+
+                        foodType.setValue("Appetizer");
                         foodTimeToPrepare.setValue(appetizer.getTimeToPrepare().toString());
 
                         food.setAttributeNode(foodTimeToPrepare);
+                        food.setAttributeNode(foodType);
                     }
                     else if(booksFood instanceof Dessert)
                     {
                         Dessert dessert = (Dessert) booksFood;
 
+                        Attr foodType = doc.createAttribute("foodType");
                         Attr foodNeedToCook = doc.createAttribute("needToCook");
                         Attr foodTimeToPrepare = doc.createAttribute("timeToPrepare");
                         
+                        foodType.setValue("Dessert");
                         foodNeedToCook.setValue(Boolean.toString(dessert.isNeedToCook()));
                         foodTimeToPrepare.setValue(dessert.getTimeToPrepare().toString());
 
+                        food.setAttributeNode(foodType);
                         food.setAttributeNode(foodNeedToCook);
                         food.setAttributeNode(foodTimeToPrepare);
                     }
@@ -97,12 +104,15 @@ public class XMLSaver implements ISaver {
                     {
                         SecondMeal sMeal = (SecondMeal) booksFood;
 
+                        Attr foodType = doc.createAttribute("foodType");
                         Attr foodNeedToCook = doc.createAttribute("needToCook");
                         Attr foodTimeToPrepare = doc.createAttribute("timeToPrepare");
 
+                        foodType.setValue("SecondMeal");
                         foodNeedToCook.setValue(Boolean.toString(sMeal.isNeedToCook()));
                         foodTimeToPrepare.setValue(sMeal.getTimeToPrepare().toString());
 
+                        food.setAttributeNode(foodType);
                         food.setAttributeNode(foodNeedToCook);
                         food.setAttributeNode(foodTimeToPrepare);
 
@@ -124,8 +134,7 @@ public class XMLSaver implements ISaver {
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(
-                    new File(".\\RecepeStoreJava\\ProjectData\\data.xml"));
+            StreamResult result = new StreamResult(new File(path));
 
             transformer.transform(source, result);
 
